@@ -1,0 +1,20 @@
+# COCO-class mapping and rehab-specific aliases.
+# Edit for custom rehabilitation datasets and site-specific objects.
+
+safe_operational_objects:
+  - person
+  - chair
+  - bench
+  - couch
+  - sports ball
+  - bottle
+  - cup
+  - backpack
+
+rehab_aliases:
+  chair: chair
+  couch: chair
+  bench: chair
+  sports ball: therapy_ball
+  bottle: therapy_object
+  cup: therapy_object
