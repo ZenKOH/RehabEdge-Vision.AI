@@ -1,0 +1,58 @@
+# Example rehabilitation-zone configuration for a 1280x720 camera frame.
+# Adjust polygons after positioning the camera.
+
+no_cloud_mode: true
+save_review_clips: false
+
+class_aliases:
+  person: person
+  chair: chair
+  couch: chair
+  bench: chair
+  sports ball: therapy_ball
+
+zones:
+  gait_lane:
+    polygon: [[80, 120], [1200, 120], [1200, 650], [80, 650]]
+    required_classes: [person]
+    optional_classes: [chair, walker]
+  support_chair_zone:
+    polygon: [[40, 360], [360, 360], [360, 700], [40, 700]]
+    required_classes: [chair]
+    optional_classes: [person]
+  therapist_zone:
+    polygon: [[900, 80], [1260, 80], [1260, 700], [900, 700]]
+    required_classes: [person]
+    optional_classes: []
+
+rules:
+  - name: session_started
+    type: presence_in_zone
+    zone: gait_lane
+    class_name: person
+    min_duration_s: 5
+    severity: info
+    message: Person present in the gait lane for at least 5 seconds. Treat as a possible session start.
+
+  - name: patient_left_frame
+    type: absence
+    class_name: person
+    min_duration_s: 3
+    severity: warning
+    message: No person detected for at least 3 seconds. Check camera framing or review whether the patient left the area.
+
+  - name: therapist_or_caregiver_present
+    type: min_count
+    class_name: person
+    min_count: 2
+    min_duration_s: 5
+    severity: info
+    message: Two or more people detected. Possible therapist/caregiver presence.
+
+  - name: support_chair_ready
+    type: object_in_zone
+    zone: support_chair_zone
+    class_name: chair
+    min_duration_s: 2
+    severity: info
+    message: Chair detected in the support-chair zone.
