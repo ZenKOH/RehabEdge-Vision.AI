@@ -1,0 +1,15 @@
+[Unit]
+Description=RehabEdge-Vision local edge observer
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/RehabEdge-Vision.AI
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/pi/venvs/rehabedge/bin/rehabedge run --model yolo26n_openvino_model --runtime openvino --source 0 --config configs/default_zones.yaml --events /home/pi/rehabedge/events.csv
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
