@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rehabedge-vision-ai"
+version = "0.1.0"
+description = "Privacy-preserving edge computer vision for rehabilitation using Raspberry Pi, YOLO and OpenVINO."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "AGPL-3.0-or-later" }
+authors = [{ name = "Zen KOH" }]
+keywords = ["rehabilitation", "edge-ai", "raspberry-pi", "openvino", "ultralytics", "yolo", "computer-vision"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Healthcare Industry",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Image Recognition"
+]
+dependencies = [
+  "numpy>=1.24",
+  "PyYAML>=6.0",
+  "pydantic>=2.0",
+  "fastapi>=0.110",
+  "uvicorn>=0.27"
+]
+
+[project.optional-dependencies]
+vision = ["opencv-python>=4.8", "ultralytics>=8.3", "openvino>=2026.2", "onnx>=1.16", "psutil>=5.9"]
+pi = ["picamera2"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+rehabedge = "rehabedge_vision.main:main"
+
+[tool.setuptools.packages.find]
+include = ["rehabedge_vision*"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
